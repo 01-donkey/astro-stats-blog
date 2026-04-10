@@ -1,0 +1,64 @@
+---
+// 這裡可以寫 JavaScript/TypeScript 邏輯，就像以前的 PHP 區塊
+import '../styles/global.css';
+const pageTitle = "統計說明";
+---
+
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center justify-center">
+    
+
+
+<main class="text-center flex flex-col items-center">
+  <h1 class="text-5xl font-bold text-blue-600 mb-4">首頁</h1>
+  <p class="text-lg text-gray-600 mb-8"> </p>
+  
+  <div class="relative group mb-6">
+    <a href="/projects/first-project" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition block">
+      敘述統計
+    </a>
+    
+    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg">
+      資料的基本分析與圖表呈現
+      
+      <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+    </div>
+  </div>
+
+  <div class="relative group mb-6">
+    <a href="/projects/regression-analysis" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition block">
+      線性回歸分析
+    </a>
+    
+    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg">
+      探索變數間的關聯與預測模型
+      
+      <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+    </div>
+  </div>
+
+<div>	
+</div>
+    <div class="relative group">
+    <a href="/projects/machine-learning" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition block">
+      機器學習分析
+    </a>
+    
+    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg">
+      利用演算法進行資料預測與分類
+      
+      <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+    </div>
+  </div>
+
+</main>
+
+
+
+  </body>
+</html>

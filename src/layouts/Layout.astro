@@ -1,0 +1,20 @@
+---
+// 1. 在這裡匯入全域樣式，只要套用這個模板的頁面就都會有 Tailwind
+import '../styles/global.css';
+
+// 2. 接收從 Markdown 傳過來的設定資料 (例如標題)
+const { frontmatter } = Astro.props;
+---
+
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{frontmatter.title}</title>
+  </head>
+  <body class="bg-gray-50 text-gray-800 min-h-screen p-8 max-w-3xl mx-auto">
+    
+    <slot />
+
+  </body>
+</html>
