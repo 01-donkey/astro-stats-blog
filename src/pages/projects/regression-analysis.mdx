@@ -4,6 +4,10 @@ date: "2026-04-09"
 description: ""
 layout: ../../layouts/Layout.astro
 ---
+
+import SurvivalTable from '../../components/SurvivalTable.astro';
+
+
 ## 線性回歸的用處
 
 ### 1. 趨勢預測 (Trend Forecasting)
@@ -15,9 +19,7 @@ layout: ../../layouts/Layout.astro
 
 ## 實例說明
 
-## 資料集概覽：存活時間分析 (Survival Time Data)
-
-在進行迴歸分析之前，我們首先需要理解資料集的結構與欄位意義。本資料集包含了病患（或觀測對象）的各項生理指標、類別屬性，以及最終的存活時間。
+資料集概覽：存活時間分析 (Survival Time Data)
 
 <div class="mb-8 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
   <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">📋 變數欄位說明</h3>
@@ -180,42 +182,65 @@ layout: ../../layouts/Layout.astro
 
 </div>
 
-## 模型最終測試：未知數據的預測考驗 (Testing Set Evaluation)
+## 預測成果展示
 
-為了證明模型沒有「過度擬合 (Overfitting)」，我們保留了 20% 從未參與訓練的測試集資料。同時，針對經過 Log 轉換的優化模型，我們嚴謹地將預測結果透過指數函數 (`exp()`) 還原至原始尺度後，再進行誤差比對。
+<SurvivalTable />
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 text-center">
-  
-  <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-    <div class="text-sm text-gray-500 font-bold mb-2">基礎模型 (Base Model)</div>
-    <div class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded inline-block mb-4">全變數 / 未轉換</div>
-    <div class="text-gray-500 text-sm mb-1">測試集 RMSE</div>
-    <div class="text-3xl font-bold text-gray-700">{141.0535 }</div>
+## RMSE(平均誤差)
+<div class="grid grid-cols-2 md:grid-cols-3 gap-3 my-8">
+  <div class="bg-blue-50 border border-blue-100 p-3 rounded-xl text-center">
+    <div class="text-sm text-blue-600 font-bold mb-1">初始模型 </div>
+    <div class="text-2xl font-black text-gray-800"> 141.0535 </div>
   </div>
-
-  <div class="bg-blue-50 border-2 border-blue-400 p-6 rounded-xl shadow-md transform md:-translate-y-2 relative">
-    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-      預測力最佳
-    </div>
-    <div class="text-sm text-blue-800 font-bold mb-2">優化模型 (Log Model)</div>
-    <div class="text-xs bg-blue-200 text-blue-800 px-2 py-1 rounded inline-block mb-4">全變數 / Log(Y) 轉換</div>
-    <div class="text-blue-600 text-sm mb-1">測試集 RMSE</div>
-    <div class="text-4xl font-black text-gray-900">{填入您的 RMSE2 數值}</div>
+  <div class="bg-green-50 border border-green-100 p-3 rounded-xl text-center">
+    <div class="text-sm text-green-600 font-bold mb-1">修正模型 </div>
+    <div class="text-2xl font-black text-gray-800"> 144.6623 </div>
   </div>
-
-  <div class="bg-green-50 border border-green-200 p-6 rounded-xl shadow-sm">
-    <div class="text-sm text-green-800 font-bold mb-2">精簡模型 (AIC Selected)</div>
-    <div class="text-xs bg-green-200 text-green-800 px-2 py-1 rounded inline-block mb-4">AIC 篩選 / Log(Y) 轉換</div>
-    <div class="text-green-600 text-sm mb-1">測試集 RMSE</div>
-    <div class="text-3xl font-bold text-gray-800">{填入您的 RMSE_s1 數值}</div>
+  <div class="bg-purple-50 border border-purple-100 p-3 rounded-xl text-center">
+    <div class="text-sm text-rose-600 font-bold mb-1">簡化模型</div>
+    <div class="text-2xl font-black text-gray-800">143.6372 </div>
   </div>
-
 </div>
 
-> **商業洞察 (Business Insight)：**
-> 測試集結果顯示，經過對數轉換與 AIC 變數篩選的精簡模型，不僅去除了不必要的雜訊特徵，更在未知的測試數據上展現了極低的預測誤差（RMSE）。這意味著該模型具備極高的實戰部署價值，能以最少的數據收集成本，達到最精準的預測效果。
+---
 
+<div class="flex flex-col md:flex-row items-center gap-8 my-12">
+  <div class="w-full md:w-3/5">
+    <img src="/images/regression-analysis/Overall-spt.svg" alt="Overall-spt" class="w-full h-auto rounded-lg shadow-sm border border-gray-100" />
+  </div>
+  <div class="w-full md:w-2/5">
+    <h4 class="text-xl font-bold text-gray-800 mb-3">模型預測散點圖(分開)</h4>
+    <p class="text-gray-600 leading-relaxed mb-4">
+      真實值 vs 預測值」的散佈圖
+    </p>
+  </div>
+</div>
 
+<div class="flex flex-col md:flex-row-reverse items-center gap-8 my-12">
+  <div class="w-full md:w-3/5">
+    <img src="/images/regression-analysis/Overall-Prediction.svg" alt="Overall-Prediction" class="w-full h-auto rounded-lg shadow-sm border border-gray-100" />
+  </div>
+  <div class="w-full md:w-2/5">
+    <h4 class="text-xl font-bold text-gray-800 mb-3">模型預測折線圖</h4>
+    <p class="text-gray-600 leading-relaxed mb-4">
+      將預測值放一起比較
+    </p>
+  </div>
+</div>
+
+<div class="flex flex-col md:flex-row items-center gap-8 my-12">
+  <div class="w-full md:w-3/5">
+    <img src="/images/regression-analysis/box-plot.svg" alt="box-plot" class="w-full h-auto rounded-lg shadow-sm border border-gray-100" />
+  </div>
+  <div class="w-full md:w-2/5">
+    <h4 class="text-xl font-bold text-gray-800 mb-3">RMSE(box-plot)</h4>
+    <p class="text-gray-600 leading-relaxed mb-4">
+      比較三個模型的誤差分布與穩定度
+    </p>
+  </div>
+</div>
+
+## 
 <div class="mt-16 pt-8 border-t border-gray-200">
   <a href="/" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-all duration-200 group decoration-transparent">
     <span class="transform group-hover:-translate-x-1 transition-transform duration-200">&larr;</span> 
