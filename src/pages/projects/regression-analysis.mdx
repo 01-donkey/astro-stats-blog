@@ -22,7 +22,7 @@ import SurvivalTable from '../../components/SurvivalTable.astro';
 資料集概覽：存活時間分析 (Survival Time Data)
 
 <div class="mb-8 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
-  <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">📋 變數欄位說明</h3>
+  <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">變數欄位說明</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
     <div class="flex flex-col">
       <span class="font-mono text-blue-600 font-bold text-base">AU</span> 
@@ -67,7 +67,7 @@ import SurvivalTable from '../../components/SurvivalTable.astro';
   </div>
 </div>
 
-<h3 class="text-lg font-bold text-gray-800 mb-4">🔍 資料預覽 (前 6 筆)(共108筆)</h3>
+<h3 class="text-lg font-bold text-gray-800 mb-4">資料預覽 (前 6 筆)(共108筆)</h3>
 <div class="overflow-x-auto mb-12 rounded-lg border border-gray-200 shadow-sm">
   <table class="min-w-full text-sm text-left text-gray-600 whitespace-nowrap">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
@@ -112,69 +112,74 @@ import SurvivalTable from '../../components/SurvivalTable.astro';
   </table>
 </div>
 
-## 回歸模型
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
-  <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl text-center">
-    <div class="text-sm text-blue-600 font-bold mb-1">模型解釋力 (Adj. R²)</div>
-    <div class="text-2xl font-black text-gray-800">76.12%</div>
-  </div>
-  <div class="bg-green-50 border border-green-100 p-4 rounded-xl text-center">
-    <div class="text-sm text-green-600 font-bold mb-1">整體顯著性 (p-value)</div>
-    <div class="text-2xl font-black text-gray-800">< 0.001</div>
-  </div>
-  <div class="bg-purple-50 border border-purple-100 p-4 rounded-xl text-center">
-    <div class="text-sm text-purple-600 font-bold mb-1">預測特徵數量</div>
-    <div class="text-2xl font-black text-gray-800">8 個</div>
-  </div>
-  <div class="bg-gray-50 border border-gray-200 p-4 rounded-xl text-center">
-    <div class="text-sm text-gray-500 font-bold mb-1">平均預測誤差 (RSE)</div>
-    <div class="text-2xl font-bold text-gray-700">179.9</div>
-  </div>
-</div>
 
-## 模型優化成果：對數轉換 (Log Transformation)
+## 初始線性迴歸模型 (Base Model) 
 
-透過 Box-Cox 檢定發現原始模型的殘差違反常態分配後，我對目標變數進行了 Log 轉換。這項調整不僅修正了統計假設的缺失，更實質提升了模型的預測表現。
+將所有變數投入訓練後，我們得出以下的多元線性迴歸方程式。此方程式量化了各項生理指標與預測目標（$\hat{Y}$，即存活時間）之間的線性關係：
+
+$$
+\begin{aligned}
+\hat{Y} &= -1113.146 - 23.546(AU2) + 214.182(AU3) \\
+        &\quad + 55.622(BCS) + 8.152(PI) + 8.993(ET) \\
+        &\quad + 69.966(LT) + 1.300(AGE) + 22.476(Gender1)
+\end{aligned}
+$$
+為了更直觀地評估模型體質，以下整理了該模型的關鍵效能指標與特徵顯著性：
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   
-  <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm opacity-75">
-    <div class="flex items-center justify-between mb-4 border-b pb-2">
-      <h4 class="text-lg font-bold text-gray-500">初始模型 (Base Model)</h4>
-      <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">未轉換</span>
+  <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
+    <div class="flex items-center gap-2 mb-4 border-b pb-2">
+      <span class="text-xl"></span>
+      <h4 class="text-lg font-bold text-gray-800 m-0">模型整體配適度</h4>
     </div>
-    <div class="space-y-4">
-      <div>
-        <div class="text-sm text-gray-500">模型解釋力 (Adj. R²)</div>
-        <div class="text-2xl font-bold text-gray-700">76.12%</div>
-      </div>
-      <div>
-        <div class="text-sm text-gray-500">殘差標準誤 (RSE)</div>
-        <div class="text-xl font-medium text-gray-600">179.9 <span class="text-sm font-normal">(原始單位)</span></div>
-      </div>
-    </div>
+    <ul class="space-y-3 text-sm text-gray-600 list-none pl-0">
+      <li class="flex justify-between">
+        <span class="font-medium">判定係數 (Adj. R²)</span>
+        <span class="font-bold text-blue-600">0.7612</span>
+      </li>
+      <li class="text-xs text-gray-400 mt-1 mb-2">模型能解釋約 76.12% 的變異，具備良好的初始預測力。</li>
+      
+      <li class="flex justify-between">
+        <span class="font-medium">殘差標準誤 (RSE)</span>
+        <span class="font-bold text-gray-800">179.9</span>
+      </li>
+      <li class="text-xs text-gray-400 mt-1 mb-2">預測值與真實存活天數的平均絕對誤差。</li>
+      
+      <li class="flex justify-between">
+        <span class="font-medium">整體顯著性 (p-value)</span>
+        <span class="font-bold text-green-600">&lt; 2.2e-16</span>
+      </li>
+    </ul>
   </div>
 
-  <div class="bg-blue-50 border-2 border-blue-400 p-6 rounded-xl shadow-md relative transform scale-105">
-    <div class="absolute -top-3 -right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-      優化成功
-    </div>
-    <div class="flex items-center justify-between mb-4 border-b border-blue-200 pb-2">
-      <h4 class="text-lg font-bold text-blue-800">優化模型 (Log-Transformed)</h4>
-      <span class="text-xs bg-blue-200 text-blue-800 px-2 py-1 rounded">Log(Y)</span>
+  <div class="bg-gray-50 border border-gray-200 p-6 rounded-xl shadow-sm">
+    <div class="flex items-center gap-2 mb-4 border-b pb-2">
+      <span class="text-xl"></span>
+      <h4 class="text-lg font-bold text-gray-800 m-0">特徵變數顯著性</h4>
     </div>
     <div class="space-y-4">
       <div>
-        <div class="text-sm text-blue-600 font-bold">模型解釋力 (Adj. R²)</div>
-        <div class="text-3xl font-black text-gray-900">78.58% <span class="text-sm text-green-600 font-bold">(&uarr; 2.46%)</span></div>
+        <div class="text-xs text-gray-500 font-bold mb-1">高度顯著驅動因子 (p &lt; 0.001)</div>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-white border border-green-200 text-green-700 text-xs font-mono rounded shadow-sm">PI</span>
+          <span class="px-2 py-1 bg-white border border-green-200 text-green-700 text-xs font-mono rounded shadow-sm">ET</span>
+          <span class="px-2 py-1 bg-white border border-green-200 text-green-700 text-xs font-mono rounded shadow-sm">AU3</span>
+        </div>
       </div>
       <div>
-        <div class="text-sm text-blue-600 font-bold">關鍵顯著特徵 (p < 0.01)</div>
-        <div class="flex flex-wrap gap-2 mt-1">
-          <span class="px-2 py-1 bg-white border border-blue-200 text-blue-700 text-xs font-mono rounded">AU3</span>
-          <span class="px-2 py-1 bg-white border border-blue-200 text-blue-700 text-xs font-mono rounded">BCS</span>
-          <span class="px-2 py-1 bg-white border border-blue-200 text-blue-700 text-xs font-mono rounded">PI</span>
-          <span class="px-2 py-1 bg-white border border-blue-200 text-blue-700 text-xs font-mono rounded">ET</span>
+        <div class="text-xs text-gray-500 font-bold mb-1">顯著影響因子 (p &lt; 0.05)</div>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-white border border-blue-200 text-blue-700 text-xs font-mono rounded shadow-sm">BCS</span>
+          <span class="px-2 py-1 bg-white border border-blue-200 text-blue-700 text-xs font-mono rounded shadow-sm">LT</span>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs text-gray-500 font-bold mb-1">無顯著影響 (建議後續剔除)</div>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-gray-200 text-gray-500 text-xs font-mono rounded">AU2</span>
+          <span class="px-2 py-1 bg-gray-200 text-gray-500 text-xs font-mono rounded">AGE</span>
+          <span class="px-2 py-1 bg-gray-200 text-gray-500 text-xs font-mono rounded">Gender1</span>
         </div>
       </div>
     </div>

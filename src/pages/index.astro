@@ -35,7 +35,7 @@ const pageTitle = "統計說明";
 
   <div class="relative group mb-6">
     <a href="/projects/regression-analysis" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition block">
-      線性回歸分析(修理中)
+      線性回歸分析
     </a>
     
     <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg">
@@ -47,17 +47,39 @@ const pageTitle = "統計說明";
 
 <div>	
 </div>
-    <div class="relative group">
-    <a href="/projects/machine-learning" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition block">
-      機器學習分析
+
+<div class="relative group inline-block">
+  
+  <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 cursor-pointer border-0">
+    機器學習(維修中)
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  
+  <div class="absolute top-full left-0 mt-2 w-60 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden flex flex-col py-2">
+    
+    <a href="/projects/random-forest" class="block px-4 py-3 hover:bg-blue-50 transition-colors text-left no-underline">
+      <div class="text-sm font-bold text-gray-800">隨機森林</div>
+      <div class="text-xs text-gray-400 mt-1 font-normal leading-relaxed">分類與數值預測</div>
     </a>
     
-    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-lg">
-      利用演算法進行資料預測與分類
-      
-      <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
-    </div>
+    <div class="border-t border-gray-100"></div>
+    
+    <a href="/projects/ml-unsupervised" class="block px-4 py-3 hover:bg-blue-50 transition-colors text-left no-underline">
+      <div class="text-sm font-bold text-gray-800">非監督式學習</div>
+      <div class="text-xs text-gray-400 mt-1 font-normal leading-relaxed">資料分群與降維</div>
+    </a>
+    
+    <div class="border-t border-gray-100"></div>
+    
+    <a href="/projects/ml-reinforcement" class="block px-4 py-3 hover:bg-blue-50 transition-colors text-left no-underline">
+      <div class="text-sm font-bold text-gray-800">強化學習</div>
+      <div class="text-xs text-gray-400 mt-1 font-normal leading-relaxed">決策與自動控制</div>
+    </a>
+    
   </div>
+</div>
 
 </main>
 
